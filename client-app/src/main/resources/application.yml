@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: debug
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          oidc-client:
+            provider: spring
+            client-id: oidc-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+            scope: openid
+            client-name: oidc-client
+          oidc-client-authorization-code:
+            provider: spring
+            client-id: oidc-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/authorized"
+            scope: oidc-client.read
+            client-name: oidc-client-authorization-code
+        provider:
+          spring:
+            issuer-uri: http://auth-server:9000
