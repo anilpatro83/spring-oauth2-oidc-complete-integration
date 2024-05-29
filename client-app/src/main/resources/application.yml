@@ -5,6 +5,10 @@ logging:
   level:
     org.springframework.security: debug
 
+resource:
+  server:
+    url: "http://127.0.0.1:9090"
+
 spring:
   security:
     oauth2:
