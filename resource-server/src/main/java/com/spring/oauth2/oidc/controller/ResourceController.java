@@ -11,6 +11,17 @@ public class ResourceController {
 
 	@GetMapping("/user-resources")
 	public List<String> getResources(){
-		return Arrays.asList("Resource 1", "Resource 2", "Resource 3");
+		return Arrays.asList("resource1", "resource2");
 	}
+	
+	@GetMapping("/resource1")
+	public String resource1(){
+		return "Resource 1";
+	}
+
+	@GetMapping("/resource2")
+	public String resource2(){
+		return "Resource 2";
+	}
+
 }

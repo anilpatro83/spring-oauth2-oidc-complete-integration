@@ -1,10 +1,7 @@
 server:
   port: 9000
 
-logging:
-  level:
-    org.springframework.security: debug
-    
+ 
 
 spring:
   application:
@@ -16,7 +13,7 @@ spring:
           oidc-client:
             registration:
               client-id: "oidc-client"
-              client-secret: "{noop}secret"
+              client-secret: "$2a$04$zzxkxFsdO7VX34RbnJYgVO9TdhndjAmqSPs82jvm4sncKatp3mOdm"
               client-name: "oidc-client"
               client-authentication-methods:
                 - "client_secret_basic"
@@ -24,12 +21,21 @@ spring:
                 - "authorization_code"
                 - "refresh_token"
               redirect-uris:
-                - "http://127.0.0.1:8080/login/oauth2/code/oidc-client"
-                - "http://127.0.0.1:8080/authorized"
+                - ${REDIRECT_URI_PR:http://127.0.0.1:8080/login/oauth2/code/oidc-client}
+                - ${REDIRECT_URI_SE:http://127.0.0.1:8080/authorized}
               post-logout-redirect-uris:
-                - "http://127.0.0.1:8080/"
+                - ${REDIRECT_URI_PL:http://127.0.0.1:8080/}
               scopes:
                 - "openid"
                 - "oidc-client.read"
             require-authorization-consent: true
-        issuer: http://auth-server:9000
+        issuer: ${ISSUER:http://auth-server:9000}
+  datasource:
+    url: ${MY_SQL_DB:jdbc:mysql://localhost:3306/testdb}
+    username: ${UNAME:test}
+    password: ${PWD:test}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    
