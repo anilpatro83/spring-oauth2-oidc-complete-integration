@@ -1,0 +1,35 @@
+services:
+  my-sql-db:
+    image: anilpatro83/mysql-db
+    container_name: my-sql-db
+    ports:
+      - 3306:3306
+  auth-server:
+    image: anilpatro83/auth-server
+    container_name: auth-server
+    environment:
+      MY_SQL_DB: jdbc:mysql://my-sql-db:3306/mysql_db
+      UNAME: mysql-db-user
+      PWD: mysql-db-pwd
+    ports:
+      - 9000:9000
+    depends_on:
+      my-sql-db:
+        condition: service_healthy
+  resource-server:
+    image: anilpatro83/resource-server
+    container_name: resource-server
+    ports:
+      - 9090:9090
+    depends_on:
+      - auth-server
+  client-app:
+    image: anilpatro83/client-app
+    container_name: client-app
+    environment:
+      RESOURCE_SERVER: http://resource-server:9090
+    ports:
+      - 8080:8080
+    depends_on:
+      - resource-server
+      - auth-server
